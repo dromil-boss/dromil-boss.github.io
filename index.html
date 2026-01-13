@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rapido Clone - All In One</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background:#fff;
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 40px;
+    background:#ffd300;
+}
+
+nav a{
+    margin-left:20px;
+    text-decoration:none;
+    font-weight:bold;
+    color:black;
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:50px;
+    background:#fff7cc;
+}
+
+.hero img{
+    width:200px;
+    margin-top:20px;
+}
+
+/* SERVICES */
+.services{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    padding:40px;
+}
+
+.card{
+    width:220px;
+    text-align:center;
+}
+
+.card img{
+    width:100%;
+    border-radius:10px;
+}
+
+/* BOOKING */
+.booking{
+    display:flex;
+    gap:40px;
+    padding:40px;
+}
+
+form{
+    width:40%;
+}
+
+form input, form select, form button{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+}
+
+form button{
+    background:black;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+/* MAP */
+.map{
+    width:60%;
+}
+
+iframe{
+    width:100%;
+    height:350px;
+    border:none;
+    border-radius:10px;
+}
+
+/* CONFIRMATION */
+.confirm{
+    display:none;
+    text-align:center;
+    padding:50px;
+}
+
+.confirm img{
+    width:100px;
+    margin-bottom:15px;
+}
+
+footer{
+    text-align:center;
+    padding:15px;
+    background:#eee;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .services, .booking{
+        flex-direction:column;
+        align-items:center;
+    }
+    form, .map{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Rapido</h1>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Book</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <h2>Fast & Affordable Bike & Car Taxi</h2>
+    <p>Book rides instantly with live map preview</p>
+    <img src="https://cdn-icons-png.flaticon.com/512/2972/2972185.png">
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+    <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1048/1048313.png">
+        <h3>Bike Taxi</h3>
+        <p>Quick & low cost</p>
+    </div>
+    <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/743/743922.png">
+        <h3>Car Taxi</h3>
+        <p>Comfortable ride</p>
+    </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="bookingSection">
+    <form onsubmit="bookRide(event)">
+        <h2>Book Your Ride</h2>
+
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="text" id="pickup" placeholder="Pickup Location" required oninput="updateMap()">
+        <input type="text" id="drop" placeholder="Drop Location" required oninput="updateMap()">
+
+        <select id="ride">
+            <option>Bike</option>
+            <option>Car</option>
+        </select>
+
+        <button type="submit">Confirm Booking</button>
+    </form>
+
+    <div class="map">
+        <iframe id="mapFrame"
+        src="https://www.google.com/maps?q=India&output=embed"></iframe>
+    </div>
+</section>
+
+<!-- CONFIRMATION -->
+<section class="confirm" id="confirmSection">
+    <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png">
+    <h2>Booking Confirmed ✅</h2>
+    <p id="details"></p>
+    <iframe id="finalMap"></iframe>
+</section>
+
+<footer>
+    © 2026 Rapido Clone | College Project
+</footer>
+
+<script>
+function updateMap(){
+    let pickup = document.getElementById("pickup").value;
+    let drop = document.getElementById("drop").value;
+
+    if(pickup && drop){
+        document.getElementById("mapFrame").src =
+        "https://www.google.com/maps?saddr=" +
+        encodeURIComponent(pickup) +
+        "&daddr=" +
+        encodeURIComponent(drop) +
+        "&output=embed";
+    }
+}
+
+function bookRide(e){
+    e.preventDefault();
+
+    let name = document.getElementById("name").value;
+    let pickup = document.getElementById("pickup").value;
+    let drop = document.getElementById("drop").value;
+    let ride = document.getElementById("ride").value;
+
+    document.getElementById("bookingSection").style.display = "none";
+    document.getElementById("confirmSection").style.display = "block";
+
+    document.getElementById("details").innerHTML =
+    `Name: ${name}<br>
+     Ride: ${ride}<br>
+     From: ${pickup}<br>
+     To: ${drop}`;
+
+    document.getElementById("finalMap").src =
+    "https://www.google.com/maps?saddr=" +
+    encodeURIComponent(pickup) +
+    "&daddr=" +
+    encodeURIComponent(drop) +
+    "&output=embed";
+}
+</script>
+
+</body>
+</html>
